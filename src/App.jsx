@@ -12,6 +12,7 @@ import Scheduling from './pages/Scheduling'
 import Events from './pages/Events'
 import Search from './pages/Search'
 import NotFound from './pages/NotFound'
+import StudentProfilePage from './pages/StudentProfilePage'
 import './App.css'
 
 const ProtectedRoute = ({ children }) => {
@@ -40,6 +41,7 @@ const AppLayout = ({ children }) => {
 
 function App() {
   const { user } = useAuth()
+  const [selectedStudent, setSelectedStudent] = useState(null)
   
   return (
     <Router>
@@ -65,7 +67,15 @@ function App() {
         <Route path="/students" element={
           <ProtectedRoute>
             <AppLayout>
-              <Students />
+              <Students setSelectedStudent={setSelectedStudent} />
+            </AppLayout>
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/student-profile" element={
+          <ProtectedRoute>
+            <AppLayout>
+              <StudentProfilePage student={selectedStudent} />
             </AppLayout>
           </ProtectedRoute>
         } />

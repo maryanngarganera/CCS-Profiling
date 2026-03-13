@@ -52,6 +52,13 @@
   flex-wrap: wrap;
 }
 
+/* added for button filters (program chips) generated inline */
+.filters-section .chip-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
 .search-filter {
   position: relative;
   flex: 1;
@@ -66,7 +73,8 @@
   font-size: 0.875rem;
 }
 
-.search-filter input {
+.search-filter input,
+.search-input {
   width: 100%;
   padding: 0.625rem 1rem 0.625rem 2.5rem;
   border: 1px solid #e2e8f0;
@@ -300,5 +308,49 @@
     flex: 1;
     min-width: 140px;
   }
+}
+
+/* Profile page styles */
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  background: #f8fafc;
+  border-color: #6366f1;
+  color: #6366f1;
+}
+
+.tab-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e2e8f0;
+  background: transparent;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-btn.active {
+  background: var(--tc);
+  border-color: var(--tc);
+  color: #fff;
+}
+
+.tab-btn:hover:not(.active) {
+  border-color: var(--tc);
+  color: var(--tc);
 }
 

@@ -1,65 +1,80 @@
 import { useState } from 'react'
 import { Search, Plus, Eye, Pencil, Trash2 } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { MOCK_STUDENTS } from '../constants/data'
+import { yearLabel } from '../utils/helpers'
 import './Students.css'
 
-const initialStudents = [
-  { id: 1, studentId: 'STU-2024-001', name: 'Juan dela Cruz', email: 'juan.cruz@ccs.edu', program: 'BS Computer Science', year: '3rd Year', status: 'Active', gpa: '3.75' },
-  { id: 2, studentId: 'STU-2024-002', name: 'Maria Santos', email: 'maria.santos@ccs.edu', program: 'BS Information Technology', year: '2nd Year', status: 'Active', gpa: '3.85' },
-  { id: 3, studentId: 'STU-2024-003', name: 'Pedro Reyes', email: 'pedro.reyes@ccs.edu', program: 'BS Computer Science', year: '4th Year', status: 'Active', gpa: '3.92' },
-  { id: 4, studentId: 'STU-2024-004', name: 'Ana Garcia', email: 'ana.garcia@ccs.edu', program: 'BS Data Science', year: '3rd Year', status: 'Active', gpa: '3.65' },
-  { id: 5, studentId: 'STU-2024-005', name: 'Jose Rodriguez', email: 'jose.rodriguez@ccs.edu', program: 'BS Computer Science', year: '1st Year', status: 'Probation', gpa: '2.45' },
-  { id: 6, studentId: 'STU-2024-006', name: 'Carmen Mendoza', email: 'carmen.mendoza@ccs.edu', program: 'BS Information Technology', year: '2nd Year', status: 'Active', gpa: '3.55' },
-  { id: 7, studentId: 'STU-2024-007', name: 'Miguel Torres', email: 'miguel.torres@ccs.edu', program: 'BS Cyber Security', year: '3rd Year', status: 'Active', gpa: '3.80' },
-  { id: 8, studentId: 'STU-2024-008', name: 'Luz Flores', email: 'luz.flores@ccs.edu', program: 'BS Computer Science', year: '4th Year', status: 'Graduated', gpa: '3.95' },
-]
-
-const Students = () => {
-  const [students, setStudents] = useState(initialStudents)
+const Students = ({ setSelectedStudent }) => {
+  const navigate = useNavigate()
+  const [students, setStudents] = useState(MOCK_STUDENTS)
   const [searchTerm, setSearchTerm] = useState('')
   const [filterProgram, setFilterProgram] = useState('all')
   const [filterStatus, setFilterStatus] = useState('all')
   const [showModal, setShowModal] = useState(false)
 
   const filteredStudents = students.filter(student => {
-    const matchesSearch = student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.studentId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const matchesSearch = `${student.first_name} ${student.last_name}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.student_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
       student.email.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesProgram = filterProgram === 'all' || student.program === filterProgram
     const matchesStatus = filterStatus === 'all' || student.status === filterStatus
     return matchesSearch && matchesProgram && matchesStatus
   })
 
-  const programs = [...new Set(initialStudents.map(s => s.program))]
+  const programs = [...new Set(MOCK_STUDENTS.map(s => s.program))]
+
+  // count for header
+  const studentCount = filteredStudents.length
 
   return (
-    <div className="students-page">
-      <div className="page-header">
-        <div className="page-title">
-          <h1>Student Information</h1>
-          <p>Manage and view all student records</p>
+    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '48px' }}>
+      {/* header similar to StudentsPage layout */}
+      <div className="fade-up" style={{ marginBottom: 36 }}>
+        <h1 style={{ fontSize: 32, fontWeight: 900, letterSpacing: '-0.02em', marginBottom: 8 }}>
+          <span style={{ color: '#6366f1' }}>Students</span> Information
+        </h1>
+        <p style={{ color: '#64748b', fontSize: 14 }}>
+          Browse all enrolled students and view detailed academic profiles.
+        </p>
+      </div>
+
+      <div className="fade-up fade-up-1" style={{ display: 'flex', gap: 12, marginBottom: 32, flexWrap: 'wrap', alignItems: 'center' }}>
+        <div style={{ position: 'relative' }}>
+          <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', fontSize: 14, color: '#64748b' }}>
+            <Search size={14} />
+          </span>
+          <input
+            className="search-input"
+            placeholder="Search by name, ID or email…"
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+            style={{ paddingLeft: 36 }}
+          />
         </div>
-        <button className="add-btn" onClick={() => setShowModal(true)}>
-          <Plus size={18} /> Add Student
-        </button>
+
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+          {programs.map(p => (
+            <button key={p} onClick={() => setFilterProgram(p)} style={{
+              padding: '8px 14px', borderRadius: 9, fontSize: 11, fontWeight: 600,
+              cursor: 'pointer', fontFamily: 'monospace', letterSpacing: '0.05em',
+              border: `1px solid ${filterProgram === p ? '#6366f150' : '#e2e8f0'}`,
+              background: filterProgram === p ? '#6366f150' : 'transparent',
+              color: filterProgram === p ? '#6366f1' : '#64748b',
+              transition: 'all 0.15s',
+            }}>
+              {p === 'all' ? 'All Programs' : p}
+            </button>
+          ))}
+        </div>
+
+        <div style={{ marginLeft: 'auto', fontSize: 12, color: '#64748b', fontFamily: 'monospace' }}>
+          {studentCount} student{studentCount !== 1 ? 's' : ''}
+        </div>
       </div>
 
       <div className="filters-section">
-        <div className="search-filter">
-          <span className="search-icon"><Search size={18} /></span>
-          <input
-            type="text"
-            placeholder="Search by name, ID, or email..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
         <div className="filter-group">
-          <select value={filterProgram} onChange={(e) => setFilterProgram(e.target.value)}>
-            <option value="all">All Programs</option>
-            {programs.map(program => (
-              <option key={program} value={program}>{program}</option>
-            ))}
-          </select>
           <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
             <option value="all">All Status</option>
             <option value="Active">Active</option>
@@ -86,16 +101,16 @@ const Students = () => {
           <tbody>
             {filteredStudents.map(student => (
               <tr key={student.id}>
-                <td className="student-id">{student.studentId}</td>
+                <td className="student-id">{student.student_number}</td>
                 <td>
                   <div className="student-name">
-                    <span className="avatar">{student.name.charAt(0)}</span>
-                    {student.name}
+                    <span className="avatar">{student.first_name.charAt(0)}</span>
+                    {student.first_name} {student.last_name}
                   </div>
                 </td>
                 <td className="email">{student.email}</td>
                 <td>{student.program}</td>
-                <td>{student.year}</td>
+                <td>{yearLabel(student.year_level)}</td>
                 <td className="gpa">{student.gpa}</td>
                 <td>
                   <span className={`status-badge ${student.status.toLowerCase()}`}>
@@ -104,7 +119,7 @@ const Students = () => {
                 </td>
                 <td>
                   <div className="action-buttons">
-                    <button className="action-btn view" title="View"><Eye size={16} /></button>
+                    <button className="action-btn view" title="View" onClick={() => { setSelectedStudent(student); navigate('/student-profile'); }}><Eye size={16} /></button>
                     <button className="action-btn edit" title="Edit"><Pencil size={16} /></button>
                     <button className="action-btn delete" title="Delete"><Trash2 size={16} /></button>
                   </div>
