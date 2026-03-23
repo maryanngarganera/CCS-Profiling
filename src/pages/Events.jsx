@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Calendar, Book, PartyPopper, Users, Clock, MapPin, User, Plus } from 'lucide-react'
 import './Events.css'
+import { T } from '../constants/colors';
 
 const initialEvents = [
   { id: 1, title: 'Faculty Development Program', type: 'Curricular', date: '2024-11-15', time: '9:00 AM - 4:00 PM', location: 'Conference Hall', organizer: 'Dr. Ricardo Martinez', status: 'Upcoming', attendees: 45 },
@@ -37,14 +38,13 @@ const Events = () => {
 
   return (
     <div className="events-page">
-      <div className="page-header">
-        <div className="page-title">
-          <h1>Events Management</h1>
-          <p>Manage curricular and extra-curricular events</p>
-        </div>
-        <button className="add-btn">
-          <Plus size={18} /> Create Event
-        </button>
+<div className="fade-up" style={{ marginBottom: 36 }}>
+        <h1 style={{ fontSize: 32, fontWeight: 900, letterSpacing: '-0.02em', marginBottom: 8 }}>
+          <span style={{ background: `linear-gradient(135deg, ${T.blue}, #2563eb)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Events</span> Management
+        </h1>
+        <p style={{ color: T.muted, fontSize: 16 }}>
+          Manage curricular and extra-curricular events.
+        </p>
       </div>
 
       <div className="stats-row">

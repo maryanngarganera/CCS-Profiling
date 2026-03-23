@@ -13,6 +13,7 @@ import Events from './pages/Events'
 import Search from './pages/Search'
 import NotFound from './pages/NotFound'
 import StudentProfilePage from './pages/StudentProfilePage'
+import FacultyProfilePage from './pages/FacultyProfilePage'
 import './App.css'
 
 const ProtectedRoute = ({ children }) => {
@@ -84,6 +85,13 @@ function App() {
           <ProtectedRoute>
             <AppLayout>
               <Faculty />
+            </AppLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/faculty/:id" element={
+          <ProtectedRoute>
+            <AppLayout>
+              <FacultyProfilePage />
             </AppLayout>
           </ProtectedRoute>
         } />

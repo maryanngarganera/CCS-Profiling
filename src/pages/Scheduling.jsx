@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './Scheduling.css'
+import { T } from '../constants/colors';
 
 const initialSchedules = [
   { id: 1, course: 'CS101', section: 'A', courseName: 'Introduction to Programming', faculty: 'Dr. Ricardo Martinez', room: 'Room 101', building: 'CS Building', day: 'Monday', time: '9:00 AM - 10:30 AM', type: 'Lecture' },
@@ -46,14 +47,13 @@ const Scheduling = () => {
 
   return (
     <div className="scheduling-page">
-      <div className="page-header">
-        <div className="page-title">
-          <h1>Scheduling Management</h1>
-          <p>Manage course schedules, sections, rooms, and faculty assignments</p>
-        </div>
-        <button className="add-btn">
-          + Add Schedule
-        </button>
+<div className="fade-up" style={{ marginBottom: 36 }}>
+        <h1 style={{ fontSize: 32, fontWeight: 900, letterSpacing: '-0.02em', marginBottom: 8 }}>
+          <span style={{ background: `linear-gradient(135deg, ${T.purple}, #7c3aed)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Scheduling</span> Management
+        </h1>
+        <p style={{ color: T.muted, fontSize: 16 }}>
+          Manage course schedules, sections, rooms, and faculty assignments.
+        </p>
       </div>
 
       <div className="tabs-container">

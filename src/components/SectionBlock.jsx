@@ -20,7 +20,6 @@ const SectionBlock = ({ label, color, fields }) => {
         textTransform: 'uppercase',
         letterSpacing: '0.05em',
         fontFamily: 'monospace',
-        fontSize: 11,
       }}>
         <div style={{ width: 4, height: 4, background: color, borderRadius: '50%' }} />
         {label}

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Book, Clipboard, BookOpen, GraduationCap, Search, Plus, Pencil } from 'lucide-react'
 import './Instruction.css'
+import { T } from '../constants/colors';
 
 const initialCourses = [
   { id: 1, code: 'CS101', name: 'Introduction to Programming', credits: 3, department: 'Computer Science', syllabus: 'Fundamentals of programming using Python', lessons: 15, curriculum: '2024', status: 'Active' },
@@ -37,14 +38,13 @@ const Instruction = () => {
 
   return (
     <div className="instruction-page">
-      <div className="page-header">
-        <div className="page-title">
-          <h1>Instruction Management</h1>
-          <p>Manage courses, syllabus, lessons, and curriculum</p>
-        </div>
-        <button className="add-btn">
-          <Plus size={18} /> Add Course
-        </button>
+<div className="fade-up" style={{ marginBottom: 36 }}>
+        <h1 style={{ fontSize: 32, fontWeight: 900, letterSpacing: '-0.02em', marginBottom: 8 }}>
+          <span style={{ background: `linear-gradient(135deg, ${T.accent}, #4f46e5)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Instruction</span> Management
+        </h1>
+        <p style={{ color: T.muted, fontSize: 16 }}>
+          Manage courses, syllabus, lessons, and curriculum.
+        </p>
       </div>
 
       <div className="tabs-container">

@@ -1,6 +1,9 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { GraduationCap, CheckCircle, Calendar, Book, Search, Plus, Eye, Pencil, Trash2 } from 'lucide-react'
 import './Faculty.css'
+
+import { T } from '../constants/colors';
 
 const initialFaculty = [
   { id: 1, facultyId: 'FAC-001', name: 'Dr. Ricardo Martinez', email: 'ricardo.martinez@ccs.edu', department: 'Computer Science', position: 'Professor', specialization: 'Artificial Intelligence', courses: 3, status: 'Active' },
@@ -14,6 +17,7 @@ const initialFaculty = [
 ]
 
 const Faculty = () => {
+  const navigate = useNavigate()
   const [faculty, setFaculty] = useState(initialFaculty)
   const [searchTerm, setSearchTerm] = useState('')
   const [filterDepartment, setFilterDepartment] = useState('all')
@@ -32,14 +36,13 @@ const Faculty = () => {
 
   return (
     <div className="faculty-page">
-      <div className="page-header">
-        <div className="page-title">
-          <h1>Faculty Information</h1>
-          <p>Manage faculty members and their details</p>
-        </div>
-        <button className="add-btn">
-          <Plus size={18} /> Add Faculty
-        </button>
+<div className="fade-up" style={{ marginBottom: 36 }}>
+        <h1 style={{ fontSize: 32, fontWeight: 900, letterSpacing: '-0.02em', marginBottom: 8 }}>
+          <span style={{ background: `linear-gradient(135deg, ${T.gold}, #d97706)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Faculty</span> Information
+        </h1>
+        <p style={{ color: T.muted, fontSize: 16 }}>
+          Browse all faculty members and view detailed academic profiles.
+        </p>
       </div>
 
       <div className="stats-row">
@@ -135,7 +138,7 @@ const Faculty = () => {
                 </td>
                 <td>
                   <div className="action-buttons">
-                    <button className="action-btn view" title="View"><Eye size={16} /></button>
+                    <button className="action-btn view" title="View" onClick={() => navigate(`/faculty/${f.id}`)}><Eye size={16} /></button>
                     <button className="action-btn edit" title="Edit"><Pencil size={16} /></button>
                     <button className="action-btn delete" title="Delete"><Trash2 size={16} /></button>
                   </div>

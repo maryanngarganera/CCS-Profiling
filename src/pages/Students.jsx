@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Search, Plus, Eye, Pencil, Trash2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { MOCK_STUDENTS } from '../constants/data'
-import { yearLabel } from '../utils/helpers'
+import { yearLabel, programAbbr } from '../utils/helpers'
 import './Students.css'
 
 const Students = ({ setSelectedStudent }) => {
@@ -23,13 +23,10 @@ const Students = ({ setSelectedStudent }) => {
   })
 
   const programs = [...new Set(MOCK_STUDENTS.map(s => s.program))]
-
-  // count for header
   const studentCount = filteredStudents.length
 
   return (
-    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '48px' }}>
-      {/* header similar to StudentsPage layout */}
+    <div className="students-page">
       <div className="fade-up" style={{ marginBottom: 36 }}>
         <h1 style={{ fontSize: 32, fontWeight: 900, letterSpacing: '-0.02em', marginBottom: 8 }}>
           <span style={{ color: '#6366f1' }}>Students</span> Information
@@ -39,42 +36,23 @@ const Students = ({ setSelectedStudent }) => {
         </p>
       </div>
 
-      <div className="fade-up fade-up-1" style={{ display: 'flex', gap: 12, marginBottom: 32, flexWrap: 'wrap', alignItems: 'center' }}>
-        <div style={{ position: 'relative' }}>
-          <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', fontSize: 14, color: '#64748b' }}>
-            <Search size={14} />
-          </span>
+      <div className="filters-section">
+        <div className="search-filter">
+          <span className="search-icon"><Search size={18} /></span>
           <input
-            className="search-input"
-            placeholder="Search by name, ID or email…"
+            type="text"
+            placeholder="Search by name, ID, or email…"
             value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            style={{ paddingLeft: 36 }}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-          {programs.map(p => (
-            <button key={p} onClick={() => setFilterProgram(p)} style={{
-              padding: '8px 14px', borderRadius: 9, fontSize: 11, fontWeight: 600,
-              cursor: 'pointer', fontFamily: 'monospace', letterSpacing: '0.05em',
-              border: `1px solid ${filterProgram === p ? '#6366f150' : '#e2e8f0'}`,
-              background: filterProgram === p ? '#6366f150' : 'transparent',
-              color: filterProgram === p ? '#6366f1' : '#64748b',
-              transition: 'all 0.15s',
-            }}>
-              {p === 'all' ? 'All Programs' : p}
-            </button>
-          ))}
-        </div>
-
-        <div style={{ marginLeft: 'auto', fontSize: 12, color: '#64748b', fontFamily: 'monospace' }}>
-          {studentCount} student{studentCount !== 1 ? 's' : ''}
-        </div>
-      </div>
-
-      <div className="filters-section">
         <div className="filter-group">
+          <select value={filterProgram} onChange={(e) => setFilterProgram(e.target.value)}>
+            <option value="all">All Programs</option>
+            {programs.map(p => (
+              <option key={p} value={p}>{p}</option>
+            ))}
+          </select>
           <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
             <option value="all">All Status</option>
             <option value="Active">Active</option>
@@ -93,7 +71,6 @@ const Students = ({ setSelectedStudent }) => {
               <th>Email</th>
               <th>Program</th>
               <th>Year</th>
-              <th>GPA</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -109,9 +86,8 @@ const Students = ({ setSelectedStudent }) => {
                   </div>
                 </td>
                 <td className="email">{student.email}</td>
-                <td>{student.program}</td>
+                <td title={student.program}>{programAbbr(student.program)}</td>
                 <td>{yearLabel(student.year_level)}</td>
-                <td className="gpa">{student.gpa}</td>
                 <td>
                   <span className={`status-badge ${student.status.toLowerCase()}`}>
                     {student.status}
@@ -119,9 +95,9 @@ const Students = ({ setSelectedStudent }) => {
                 </td>
                 <td>
                   <div className="action-buttons">
-                    <button className="action-btn view" title="View" onClick={() => { setSelectedStudent(student); navigate('/student-profile'); }}><Eye size={16} /></button>
-                    <button className="action-btn edit" title="Edit"><Pencil size={16} /></button>
-                    <button className="action-btn delete" title="Delete"><Trash2 size={16} /></button>
+                    <button className="action-btn view" title="View Profile" onClick={() => { setSelectedStudent(student); navigate('/student-profile'); }}><Eye size={16} /></button>
+                    <button className="action-btn edit" title="Edit Student" onClick={() => console.log('Edit', student.id)}><Pencil size={16} /></button>
+                    <button className="action-btn delete" title="Delete Student" onClick={() => console.log('Delete', student.id)}><Trash2 size={16} /></button>
                   </div>
                 </td>
               </tr>
@@ -145,4 +121,3 @@ const Students = ({ setSelectedStudent }) => {
 }
 
 export default Students
-
